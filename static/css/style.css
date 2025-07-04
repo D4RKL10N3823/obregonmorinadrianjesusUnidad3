@@ -1,0 +1,21 @@
+a {
+    color: white ;
+}
+
+a:hover {
+    color: #FFBC0E;
+}
+
+#view-anime-btn:hover {
+    color: black;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.result-item {
+    opacity: 0;
+    animation: fadeIn 0.4s ease forwards;
+}

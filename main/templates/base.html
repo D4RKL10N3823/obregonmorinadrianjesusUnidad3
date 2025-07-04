@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'js/header.js' %}"></script>
+    {% block extra_head %}{% endblock %}
+    {% block extra_scripts %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}Mi sitio{% endblock %}</title>
+</head>
+<body  class="bg-black min-h-screen flex flex-col">
+    <!-- Alertas de errores -->
+    {% if messages %}
+        <div class="fixed top-4 right-4 space-y-2 z-50">
+            {% for message in messages %}
+            <div
+                class="px-4 py-3 rounded shadow
+                {% if message.tags == 'success' %}bg-green-100 border-green-400 text-green-700{% endif %}
+                {% if message.tags == 'error'   %}bg-red-100   border-red-400   text-red-700  {% endif %}
+                {% if message.tags == 'warning' %}bg-yellow-100 border-yellow-400 text-yellow-700{% endif %}
+                {% if message.tags == 'info'    %}bg-blue-100  border-blue-400   text-blue-700 {% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- Menú de navegación (Navbar)-->
+    <header style="background-color: #11111F;" class="text-white py-2 h-16">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-8">
+                <div class="flex items-end space-x-2">
+                    <a href="{% url 'anime_list' %}"><img src="{% static 'images/logo.png' %}" alt="TakosuAnime" class="h-12"></a>
+                </div>
+                <a href="{% url 'anime_list' %}" class="text-white hover:text-yellow-400">Inicio</a>
+                <a href="{% url 'help' %}">Ayuda</a>
+                {%  if request.user.is_authenticated and request.user.is_superuser %}
+                    <a href="{% url 'admin' %}">Panel</a>
+                {% endif %}
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center relative">
+                    <a href="{% url 'search' %}" class="text-white h-10 w-10 flex items-center justify-center  hover:text-yellow-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="relative">
+                    {% if request.user.is_authenticated %}
+                        <button id="profileMenuButton" class="inline-block focus:outline-none">
+                            <img src="{{ user.icon.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full object-cover" />
+                        </button>
+
+                        <div style="background-color: #11111F;" id="profileMenu" class="hidden absolute w-48 rounded-lg shadow-lg py-2 z-10">
+                            <a href="{% url 'profile' %}" class="block px-4 py-2 text-white hover:text-yellow-500">
+                                Perfil
+                            </a>
+                            <form action="{% url 'logout' %}" method="post" class="block">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full text-left px-4 py-2 text-white hover:text-yellow-500">
+                                    Cerrar Sesión
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-white py-2 px-4 rounded-md hover:text-yellow-500">Iniciar Sesión</a>
+                        |
+                        <a href="{% url 'signup' %}" class="text-white py-2 px-4 rounded-md hover:text-yellow-500">Registrarse</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% block header_fullwidth %}{% endblock %} 
+
+    <!-- Mostrar el contenido de las diferentes páginas-->
+    <main class="container mx-auto py-8 flex-grow">
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: #11111F;" class="text-white py-8">
+        <div class="container mx-auto flex flex-col md:flex-row md:gap-x-20 justify-center items-start text-sm pt-5">
+            <div class="px-2">
+                <span class="font-semibold text-base">Navegación</span>
+                <div class="flex flex-col space-y-1 pt-2">
+                    <a href="{% url 'anime_list' %}">Inicio</a>
+                    <a href="{%  url 'search' %}">Buscar</a>
+                    <a href="{% url 'sitemap' %}">Mapa del Sitio</a>
+                </div>
+            </div>
+
+            <div class="px-2">
+                <span class="font-semibold text-base">TakosuAnime</span>
+                <div class="flex flex-col pt-2 space-y-1">
+                    <a href="{% url 'help' %}">Ayuda</a>
+                    <a href="{% url 'suggestion' %}">Buzón</a>
+                    <a href="{% url 'contact' %}">Contáctanos</a>
+                </div>
+            </div>
+
+            <div class="px-2">
+                <span class="font-semibold text-base">Cuenta</span>
+                <div class="flex flex-col pt-2 space-y-1">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Perfil</a>
+                    <form action="{% url 'logout' %}" method="post" class="block">
+                        {% csrf_token %}
+                        <button type="submit" class="hover:[color:#FFBC0E]">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Iniciar Sesión</a>
+                    <a href="{% url 'signup' %}">Registrarse</a>
+                {% endif%}
+                    <a href="{% url 'home_redirect' %}">Chat</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-sm text-gray-400 text-center pt-8" >
+            © 2025 TakosuAnime.
+        </div>
+    </footer>
+</body>
+</html>
