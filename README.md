@@ -1,8 +1,8 @@
-# Proyecto Unidad 3 – Portal de Anime (Django)
+# Proyecto Unidad 3 – TakosuAnime
 
-Este proyecto fue desarrollado como parte del proyecto final de la materia de desarrollo web profesional.  
-Se trata de una **aplicacion web de animes** donde los usuarios pueden registrarse, iniciar sesión, recuperar contraseñas y navegar por distintos animes y episodios.  
-Incluye integración de seguridad con **Google ReCAPTCHA**, gestión de perfiles y secciones de contacto y ayuda.
+Este proyecto fue desarrollado como parte del **proyecto final de la materia de Desarrollo Web Profesional**.  
+Se trata de una **plataforma estilo Crunchyroll**: un **portal de catálogo de animes y episodios**, donde los usuarios pueden registrarse, iniciar sesión, recuperar contraseñas y navegar por un catálogo organizado de series.  
+No es un sistema de streaming en tiempo real, sino un **portal interactivo de contenidos multimedia** con seguridad y gestión de usuarios.
 
 ---
 
@@ -11,9 +11,10 @@ Incluye integración de seguridad con **Google ReCAPTCHA**, gestión de perfiles
 - Recuperación de contraseñas con flujo completo (reset + confirmación).
 - Validación de formularios con **Google ReCAPTCHA**.
 - Vista de detalle de **animes y episodios** con imágenes.
+- Navegación por episodios de cada anime.
 - Sistema de perfiles de usuario.
 - Páginas adicionales: ayuda, contacto, chat.
-- Gestión de archivos multimedia (imágenes de animes y videos).
+- Gestión de archivos multimedia (imágenes de animes y episodios).
 
 ---
 
